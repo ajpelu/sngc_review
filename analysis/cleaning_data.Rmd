@@ -1,0 +1,29 @@
+---
+title: "Read WOS raw data and create table"
+author: "AJ Perez-Luque (@ajpelu) and SuarezMunoz M"
+date: "2016 February"
+output:  
+    md_document:
+      variant: markdown_github
+---
+
+## Import raw data
+
+```{r wd, echo=FALSE}
+#---------------------------------
+# Set working directory 
+machine <- "/Users/ajpelu"
+# machine <- "/Users/ajpeluLap"
+
+di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
+#---------------------------------
+```
+
+
+```{r}
+# Read raw table 
+re <- read.csv(file=paste(di, "/data/wos1.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+```
+
