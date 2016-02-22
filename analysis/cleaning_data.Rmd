@@ -21,9 +21,42 @@ di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
 
 
 ```{r}
-# Read raw table 
-re <- read.csv(file=paste(di, "/data/wos1.txt", sep= ""),
+# Read raw files
+wos1 <- read.csv(file=paste(di, "/data/wos1.txt", sep= ""),
               header = TRUE,
               sep = '\t')
+
+wos2 <-  read.csv(file=paste(di, "/data/wos2.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+zoo <- read.csv(file=paste(di, "/data/zoo.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+
+bioCI <- read.csv(file=paste(di, "/data/bioCI.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+
+bioP <- read.csv(file=paste(di, "/data/bioP.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+
+med <- read.csv(file=paste(di, "/data/med.txt", sep= ""),
+              header = TRUE,
+              sep = '\t')
+
+
+
+rawdf <- rbind(bioCI, bioP, med, wos1, wos2, zoo)
 ```
 
+
+### Create several subsets
+
+First we want to create a table with the authors and the corresponding author. 
+
+
+```{r}
+d <- rawdf[, c("Authors..Primary", "Author.Address")]
+
+```
