@@ -76,12 +76,13 @@ vec_columnas <- paste0("a", 1:(max_columnas + 1))
 all_authors_colum <- tidyr::separate(d, authors, into=vec_columnas, extra="merge", sep=";")
 
 #### Create a dataframe with unique authors
-all_authors_clean <- as.data.frame(stringr::str_replace_all(all_authors$author, pattern = ",", replacement = " "))
-all_authors_clean <- unique(all_authors_clean)
-names(all_authors_clean)[1] <- 'author'
+all_authors_clean <- all_authors %>% 
+  mutate(author = str_replace_all(author, pattern = ",", replacement = " ")) %>%  # Replace "," by " "
+  arrange(desc(author)) %>% # Sort 
+  filter(!duplicated(author))
+
 # Export unique dataframe authors
 write.csv(all_authors_clean, file=paste(di, "/data/output/lista_author_wos.csv", sep=""), row.names = FALSE)
-
 ```
 
 ```{r}
