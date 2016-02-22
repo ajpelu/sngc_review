@@ -1,33 +1,30 @@
----
-title: "Read WOS raw data and create table"
-author: "AJ Perez-Luque (@ajpelu); M Suarez-Munoz"
-date: "2016 February"
-output:  
-    md_document:
-      variant: markdown_github
----
+Import raw data
+---------------
 
-## Import raw data
-
-```{r wd, echo=FALSE}
-#---------------------------------
-# Set working directory 
-machine <- "/Users/ajpelu"
-machine <- "/Users/ajpeluLap"
-
-di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
-#---------------------------------
-```
-
-```{r packages}
+``` r
 library("stringr") 
 library("dplyr")
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+    ## 
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+    ## 
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
 library("tidyr")
 library("ggplot2")
 ```
 
+    ## Warning: package 'ggplot2' was built under R version 3.2.3
 
-```{r}
+``` r
 # Read raw files
 # Get file names
 files <- list.files(path = paste(di, "/data/wos_raw/", sep= ""), pattern= "\\.txt$")
@@ -45,12 +42,11 @@ for (j in files){
 rawdf <- rbind(bioCI, bioP, med, wos1, wos2, zoo)
 ```
 
-
 ### Create several subsets
 
-First we want to create a table with the authors and the corresponding author. 
+First we want to create a table with the authors and the corresponding author.
 
-```{r}
+``` r
 d <- rawdf[, c("Authors..Primary", "Author.Address")]
 names(d) <- c("authors", "address")
 
@@ -66,7 +62,12 @@ max_columnas <- max(stringr::str_count(d$authors, pattern=";"))
 vec_columnas <- paste0("a", 1:(max_columnas + 1))
 
 all_authors_colum <- tidyr::separate(d, authors, into=vec_columnas, extra="merge", sep=";")
+```
 
+    ## Warning: Too few values at 1036 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    ## 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
+
+``` r
 #### Create a dataframe with unique authors
 all_authors_clean <- all_authors %>% 
   mutate(author = str_replace_all(author, pattern = ",", replacement = " ")) %>%  # Replace "," by " "
@@ -77,7 +78,7 @@ all_authors_clean <- all_authors %>%
 write.csv(all_authors_clean, file=paste(di, "/data/output/lista_author_wos.csv", sep=""), row.names = FALSE)
 ```
 
-```{r}
+``` r
 # Matching e-mail address 
 # via Gaston Sanchez http://gastonsanchez.com/Handling_and_Processing_Strings_in_R.pdf 
 
@@ -86,7 +87,11 @@ d$email_yes <- stringr::str_count(d$address, pattern="@")
 
 # How many records has email address? 
 sum(d$email_yes, na.rm = TRUE)
+```
 
+    ## [1] 709
+
+``` r
 # 
 
 # Define a pattern for email 
@@ -113,10 +118,10 @@ names(lista_emails_unicos)[1] <- 'email'
 # Export 
 write.csv(lista_emails_unicos, file=paste(di, "/data/output/lista_emails_wos.csv", sep=""), row.names = FALSE)
 ```
- 
- 
+
 ### Preliminary Analysis of the Journals
-```{r}
+
+``` r
 # Get journal name and year
 jo <- rawdf %>% 
   group_by(Periodical.Full) %>% 
@@ -126,8 +131,9 @@ jo <- rawdf %>%
 write.table(jo, file=paste(di, "/data/output/sta_cout_by_journal.csv", sep=""), row.names = FALSE)
 ```
 
-### Papers by year 
-```{r}
+### Papers by year
+
+``` r
 art_by_year <- rawdf %>% 
   group_by(Pub.Year) %>% 
   summarise(count=n()) %>%
@@ -138,9 +144,15 @@ art_by_year <- rawdf %>%
 ggplot(art_by_year, aes(x=Pub.Year, y=count)) + 
   geom_bar(stat = "identity") + 
   theme_bw() + ylab("n papers") + xlab("Year")
+```
 
+![](cleaning_data_files/figure-markdown_github/unnamed-chunk-5-1.png)
+
+``` r
 ggplot(art_by_year, aes(x=Pub.Year, y=ln_sum)) + 
   geom_line(stat="identity", col="blue", size=1) +
   geom_point(stat = "identity", col="blue", size=2.5, shape=19) + 
   theme_bw() + ylab("ln (n papers)") + xlab("Year")
 ```
+
+![](cleaning_data_files/figure-markdown_github/unnamed-chunk-5-2.png)
