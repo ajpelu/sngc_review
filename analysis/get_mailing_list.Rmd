@@ -10,19 +10,21 @@ output:
 ### Create a csv with the potential mail list 
 
 We compiled a mail list from several sources: 
+
 * Dossier
-* Literature Review Search (WOS)
 * Sierra Nevada LTER Research community
+* Literature Review Search (WOS)
 
 #### Dossier
 A sql query to db `dossier_filiaciones` was done
 
-```sql
+```{r, engine='sql', eval=FALSE}
 SELECT 
   dicc_autores.email
 FROM 
   public.dicc_autores;
 ```
+
 Save as: `/data/mail_raw/dossier_filiaciones.csv`
 
 #### Sierra Nevada LTER Research community
@@ -41,3 +43,59 @@ WHERE
 
 Save as: `/data/mail_raw/investigadores_solicitudes.csv`
 
+```{r, engine='sql', eval=FALSE}
+SELECT 
+  eez.email
+FROM 
+  public.eez
+WHERE 
+  eez.email IS NOT NULL AND
+  eez.email <> '';
+```
+
+Save as: `/data/mail_raw/eez.csv`
+
+#### Literature Review Search (WOS)
+Get the data from [`/analysis/cleaning_data.md`](analysis/cleaning_data.md)
+
+
+## Read all data and create output mailist 
+
+
+
+```{r wd, echo=FALSE}
+#---------------------------------
+# Set working directory 
+machine <- "/Users/ajpelu"
+# machine <- "/Users/ajpeluLap"
+
+di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
+#---------------------------------
+```
+
+```{r packages}
+library("dplyr")
+```
+
+```{r}
+# Read data
+mail_wos <- read.csv(file=paste(di, "/data/output/lista_emails_wos.csv", sep=""),
+                     header=TRUE) 
+
+mail_dos <- read.csv(file=paste(di, "/data/mail_raw/dossier_filiaciones.csv", sep=""), 
+                     header=TRUE) 
+
+mail_inv <- read.csv(file=paste(di, "/data/mail_raw/investigadores_solicitudes.csv", sep=""), 
+                     header=TRUE) 
+    
+mail_eez <- read.csv(file=paste(di, "/data/mail_raw/eez.csv", sep=""), 
+                     header=TRUE) 
+
+# Join, remove duplicates and sort 
+mail <- rbind_all(list(mail_eez,mail_inv,mail_dos,mail_wos)) %>%
+  unique() %>%
+  arrange(email) 
+
+# Export 
+write.csv(mail, file=paste(di, "/data/output/potential_mail.csv", sep=""), quote=FALSE, row.names = FALSE)
+```
