@@ -1,0 +1,44 @@
+---
+title: "Get mail list"
+author: "AJ Perez-Luque (@ajpelu); M Suarez-Munoz"
+date: "2016 March"
+output:  
+    md_document:
+      variant: markdown_github
+---
+
+### Create a csv with the potential mail list 
+
+We compiled a mail list from several sources: 
+* Dossier
+* Literature Review Search (WOS)
+* Sierra Nevada LTER Research community
+
+#### Dossier
+A sql query to db `dossier_filiaciones` was done
+
+```sql
+SELECT 
+  dicc_autores.email
+FROM 
+  public.dicc_autores;
+```
+Save as: `/data/mail_raw/dossier_filiaciones.csv`
+
+#### Sierra Nevada LTER Research community
+
+Several sql queries from db `nodo_lter_sn`
+
+```{r, engine='sql', eval=FALSE}
+```sql 
+SELECT 
+  "Investigadores_solicitudes".email
+FROM 
+  public."Investigadores_solicitudes" 
+WHERE 
+  "Investigadores_solicitudes".email IS NOT NULL AND
+  "Investigadores_solicitudes".email <> '';
+``` 
+
+Save as: `/data/mail_raw/investigadores_solicitudes.csv`
+
