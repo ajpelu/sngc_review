@@ -19,6 +19,14 @@ Save as: `/data/mail_raw/dossier_filiaciones.csv`
 
 Several sql queries from db `nodo_lter_sn`
 
-`sql`sql SELECT "Investigadores\_solicitudes".email FROM public."Investigadores\_solicitudes" WHERE "Investigadores\_solicitudes".email IS NOT NULL AND "Investigadores\_solicitudes".email &lt;&gt; ''; \`\`\`
+``` sql
+SELECT 
+  "Investigadores_solicitudes".email
+FROM 
+  public."Investigadores_solicitudes" 
+WHERE 
+  "Investigadores_solicitudes".email IS NOT NULL AND
+  "Investigadores_solicitudes".email <> '';
+```
 
 Save as: `/data/mail_raw/investigadores_solicitudes.csv`

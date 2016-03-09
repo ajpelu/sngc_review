@@ -30,7 +30,6 @@ Save as: `/data/mail_raw/dossier_filiaciones.csv`
 Several sql queries from db `nodo_lter_sn`
 
 ```{r, engine='sql', eval=FALSE}
-```sql 
 SELECT 
   "Investigadores_solicitudes".email
 FROM 
