@@ -8,14 +8,51 @@ bibliography: references_ms.bib
 csl: journal_of_ecology.csl
 ---
 
-# WoS Search
+Research performed in Sierra Nevada was analysed based on two approaches: a literature review and a survey to scientists.
+
+# Literature Review
+
+A review of scientific publications was carried out based on Web of Science (WoS) database. For this purpose, a search in WoS was performed with the following criteria:
+
+- Query: "TS=(Sierra Nevada* AND (Spain* OR España*))"
+- Timespan: 1970-2016
+- Auto-suggest publication names: ON
+- Search language to use: Auto select
+
+**The search was done on the 1st of March 2016 (?) and resulted in 1040 references.** 
+
+The timespan selected was based on the idea that previous references do not contain enough information for further georreferencing and also on the fact that such texts may be not exhaustively digitalized and included in WoS database and therefore could be highly biased. Nevertheless, a search with the previous period was also performed as follows:
+
+- Query: "TS=(Sierra Nevada* AND (Spain* OR España*))"
+- Timespan: 1864-1970
+- Auto-suggest publication names: ON
+- Search language to use: Auto select
+
+**The search was done on the 4th of March 2016 (?) and resulted in X references.** 
+
+## Internal Control
+
+In order to test the search quality, an internal control was applied, by...
+
+[## Export process ...Según el nivel de detalle que queramos...]
+
+## Analysis
+
+- An identification key was assigned to each reference
+- Pdf of each reference was downloaded, either directly through WoS or by means of Google Scholar
+- References which resulted to be out of the scope of our interest (i.e. research performed in Sierra Nevada, Spain) were excluded from further analysis
+- Spatial (and time) references were extracted from each reference. These refer to the place and time where and when samplings or measurements were taken. 
+- Data mining part: ... Ideas:
+        Supervised: per Journal, per key words, per abstract
+        Manual: expert criteria
+        Compare them
+
+# Survey to Scientists 
+
+A survey was distributed to scientists who have or had some relation to Sierra Nevada. The pool of scientists was obtained by...
 
 
-# Section 2
-llll
 
-
-# Section 3
 
 
 

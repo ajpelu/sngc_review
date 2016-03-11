@@ -1,0 +1,51 @@
+---
+title: "To Do List"
+output: html_document
+---
+
+# Literature Review
+
+## Basic Incidences
+- Incoherences in Title
+- Incoherences in author
+- Avoiding duplicates
+- Pdfs lacking?
+
+## Georeferencing
+
+- Spatial aspect: decide criteria for the georeferencing: 
+    > See "Sampling References" tab in "AA Papers"
+    
+- Temporal aspect
+
+Basically the conflict here is to decide what is considered for the study. For example, if a sample is taken at a certain point in time and space, is it that what we include? It seems simple but the variety of spatial and temporal ranges studies makes it a bit more complex...
+
+## Data Mining
+
+- Learning data mining, exploring package, text mining visualization, VOSviewer or alternatives (Plotly+Rshiny)...
+- Table Areas_x_Journal
+- Define topics for expert criteria analysis: hierarchical vs "key words", both cases,...
+
+# Survey
+
+- Bff...
+
+
+
+--- 
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
