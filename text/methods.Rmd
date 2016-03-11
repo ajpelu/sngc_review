@@ -3,9 +3,7 @@ title: "methods"
 author: María Suárez Muñoz, Antonio J. Pérez-Luque et al. 
   
 output:
-  md_document:
-    variant: markdown_github
-  word_document: default
+  word_document
 bibliography: references_ms.bib
 csl: journal_of_ecology.csl
 ---
