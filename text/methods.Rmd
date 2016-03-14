@@ -7,17 +7,22 @@ output:
 bibliography: references_ms.bib
 csl: journal_of_ecology.csl
 ---
+# Study area: Sierra Nevada
+
+**We should define what we consider as Sierra Nevada. Do we consider the National Park, the Protected area, the geological formation...?**
 
 Research performed in Sierra Nevada was analysed based on two approaches: a literature review and a survey to scientists.
 
 # Literature Review
 
-A review of scientific publications was carried out based on Web of Science (WoS) database. For this purpose, a search in WoS was performed with the following criteria:
+A review of scientific publications was carried out based on Web of Science (WoS) database. For this purpose, a search in WoS was performed as follows:
 
 - Query: "TS=(Sierra Nevada* AND (Spain* OR España*))"
-- Timespan: 1970-2016
+- **Timespan: 1970-2016** In Titeux et al. 2016 it seems they included the timespan in a different way, it would be good to est if they method gives the same results, although it is not clear to me how they did it.
 - Auto-suggest publication names: ON
 - Search language to use: Auto select
+
+Another way of refering to the search would be: "TS=(Sierra Nevada* AND (Spain* OR España*)) AND PY=1970-2016"
 
 **The search was done on the 1st of March 2016 (?) and resulted in 1040 references.** 
 
@@ -30,18 +35,27 @@ The timespan selected was based on the idea that previous references do not cont
 
 **The search was done on the 4th of March 2016 (?) and resulted in X references.** 
 
-## Internal Control
+## Controls
 
-In order to test the search quality, an internal control was applied, by...
+Control 1: Internal control
+In order to test the search quality, an internal control was applied, by performing the above mentioned search in various journals belonging to different areas or categories. Once the search was done, the resulted references were looked for in the general search results, that way assuring that search per journal will not result in different/(more) references than the general search. 
 
-[## Export process ...Según el nivel de detalle que queramos...]
+Control 2: Our DB vs WoS
+...
+
+Control 3: What scientists provide vs WoS
+A survey of scientists was conducted to obtain information about their research in Sierra Nevada. More details about this survey are given below. Within the questions addressed, scientists were asked to report a list of publications (with data obtained in Sierra Nevada).
+
+In order to know the degree of inclusion of scientific publications about Sierra Nevada in a widely used data base (WoS), the reported list of publications was compared with the results from the literature review for overlapping.
+
+*## Export process ...Según el nivel de detalle que queramos...*
 
 ## Analysis
 
-- An identification key was assigned to each reference
+- An identification key was assigned to each reference. The criteria used for this classification was based on chronological ascending order and alphabetical order of the authors within publication year. # Note: this step is not really necesary and actually it may should be excluded, since from the whole list some papers will be excluded (and therefore the key won't be continuous) and doesn't need to be shown. 
 - Pdf of each reference was downloaded, either directly through WoS or by means of Google Scholar
 - References which resulted to be out of the scope of our interest (i.e. research performed in Sierra Nevada, Spain) were excluded from further analysis
-- Spatial (and time) references were extracted from each reference. These refer to the place and time where and when samplings or measurements were taken. 
+- Spatial (and time) references were extracted from publication. These refer to the place and time where and when samplings or measurements were taken. 
 - Data mining part: ... Ideas:
         Supervised: per Journal, per key words, per abstract
         Manual: expert criteria
@@ -49,26 +63,4 @@ In order to test the search quality, an internal control was applied, by...
 
 # Survey to Scientists 
 
-A survey was distributed to scientists who have or had some relation to Sierra Nevada. The pool of scientists was obtained by...
-
-
-
-
-
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
-summary(cars)
-```
-
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars, pch=19, col="red")
-abline(lm(cars$dist~cars$speed), col="blue")
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The purpose of this survey was to obtain information about the scientists working in Sierra Nevada and their research. Scientists were asked to define their research field, report the period at which they carried out studies in Sierra Nevada and the results of their investigations. Moreover, researchers were asked for the reasons, difficulties or limitations they may have encountered when investigating this territory. *We could include the link to the survey* The survey was distributed to scientists who have some relation to Sierra Nevada, either because they attended the conference ... or because their e-mail address was present in the references exported from WoS.
