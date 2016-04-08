@@ -52,9 +52,10 @@ In order to know the degree of inclusion of scientific publications about Sierra
 
 ## Analysis
 
-- An identification key was assigned to each reference. The criteria used for this classification was based on chronological ascending order and alphabetical order of the authors within publication year. # Note: this step is not really necesary and actually it may should be excluded, since from the whole list some papers will be excluded (and therefore the key won't be continuous) and doesn't need to be shown. 
+- An identification key was assigned to each reference. The criteria used for this classification was based on chronological ascending order and alphabetical order of the authors within publication year. 
 - Pdf of each reference was downloaded, either directly through WoS or by means of Google Scholar
 - References which resulted to be out of the scope of our interest (i.e. research performed in Sierra Nevada, Spain) were excluded from further analysis
+- A database was built up relating the information downloaded from WoS with the citation data (C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review\analysis/Initial_DB/rawdf) and the information manually added in table (C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review\analysis/Initial_DB/References). More details about the database construction in (C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review\analysis/Initial_DB/Initial Data Base Creation)
 - Spatial (and time) references were extracted from publication. These refer to the place and time where and when samplings or measurements were taken. 
 - Data mining part: ... Ideas:
         Supervised: per Journal, per key words, per abstract

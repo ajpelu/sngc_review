@@ -8,6 +8,8 @@ output: html_document
 library("stringr")
 library("tidyr")
 
+machine <- "/Users/ajpelu"
+#Maria: machine <- "/Users/DELL"
 di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
 
 # Making a table with all citations

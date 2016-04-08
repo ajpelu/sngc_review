@@ -14,6 +14,7 @@ output:
 # Set working directory 
 machine <- "/Users/ajpelu"
 # machine <- "/Users/ajpeluLap"
+# Maria: machine <- "/Users/DELL"
 
 di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
 #---------------------------------
