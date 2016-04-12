@@ -7,6 +7,19 @@ output:
 bibliography: references_ms.bib
 csl: journal_of_ecology.csl
 ---
+
+Objetivos: Realizar una búsqueda bibliográfica sobre investigación ecológica en Sierra Nevada. Consistiría en realizar búsqueda de artículos que basen sus resultados en investigaciones llevadas a cabo, total o parcialmente en Sierra Nevada. 
+
+Algunas notas
+- Utilizar para movilizar la comunidad científica de LTER en Sierra Nevada
+- Caso de estudio para LTER-España
+- Productos deseables:
+    - Spatial database con información de zonas de estudio en SN 
+    - Ejemplo a mostrar al resto de nodos LTER para caracterizar la comunidad científica de SN (Para el informe FB-LTER????) 
+    - Se puede generar una especie de Data Paper mostrando el flujo completo para la caracterización de la comunidad científica de un sitio LTER 
+- Habrá que dejar claro que el objetivo es un estudio de las investigaciones publicadas realizadas en Sierra Nevada durante un cierto período de tiempo.
+
+
 # Study area: Sierra Nevada
 
 **We should define what we consider as Sierra Nevada. Do we consider the National Park, the Protected area, the geological formation...?**
