@@ -5,19 +5,23 @@ output: html_document
 
 # Literature Review
 
-:white_check_mark: ## Definir flujo de trabajo, esquema yed o similar - en Dropbox
+:white_large_square: Definir flujo de trabajo, esquema yed o similar - en Dropbox
+
 ~~## Leer artículos similares~~ ver Google doc para verlos
+
 ~~## Definir criterio de búsqueda~~
     Time-span: 1970-2016
     Query: TS=(Sierra Nevada* AND (Spain* OR España*))
     Comprobar número y relevancia de publicaciones anteriores a 1970 (Regino): Documentado en “Search in WoS”
-:white_check_mark: Resolver basic Incidences
+
+:white_large_square: Resolver basic Incidences
     - Incoherences in Title (i.e. title not as it appears in the paper, differences between tables, languages...) - Incoherences in author (i.e. author not as it appears in the paper, differences between tables...)
     - Avoiding duplicates
     - Languages: some references are in a different language than english and spanish (german and french). Do we consider them? How to avoid duplicates due to translations? Consider that some papers may have parts of them in an accepted language, but not the whole text, or the other way around (i.e. they may appear with english title in WoS even though the paper was published in a different language)
 
-:white_check_mark: Estadísticas básicas
-:white_check_mark: Integración en Refbase 
+:white_large_square: Estadísticas básicas
+
+:white_large_square: Integración en Refbase 
   - Manejo de la herramienta
   - Crear cuenta 
   - Crear diccionario de etiquetas
@@ -26,12 +30,12 @@ output: html_document
 :red_circle: Descarga de pdf: Faltan bastantes, sobre todo por problemas con el acceso/permiso
 
 ## Controles
-~~- Control interno~~
+- ~~Control interno~~
 - Nuestra BD vs WoS
 - Encuesta vs WoS
 - Referencias en artículos descargados
 
-## Espacialización de la información generada
+:white_large_square: Espacialización de la información generada
 - Aprender a manejar información espacial QGIS http://www.qgis.org/es/site/ 
 - Base de datos PostgreSQL-PostGIS 
 - Georeferenciar para cada trabajo su localización
@@ -45,14 +49,14 @@ Basically the conflict here is to decide what is considered for the study. For e
 Regino's recommendations: include in the database literally what authors say in their paper, if possible just copy pasta what it is said in the methodology. 
   **Note**: careful with sensitive species and how to treat data related to them, make sure what international law and the Park says about what can be openly public and what needs to be limited accesible (by experts for example).
 
-:white_check_mark: Creación de un base de datos que conecte información espacial, refbase, campos nuevos (etiquetas, etc, etc): BD creada en Access para uso preliminar
+:white_large_square: Creación de un base de datos que conecte información espacial, refbase, campos nuevos (etiquetas, etc, etc): BD creada en Access para uso preliminar
 
-## Data Mining
-:white_check_mark: Learning data mining, exploring package, text mining visualization, VOSviewer or alternatives (Plotly+Rshiny)...
-:white_check_mark: Table Areas_x_Journal: necesaria para el análisis por campo. Lista de categorías aquí: http://incites.isiknowledge.com/common/help/h_field_category_wos.html#
+:white_large_square: Data Mining
+:white_large_square: Learning data mining, exploring package, text mining visualization, VOSviewer or alternatives (Plotly+Rshiny)...
+:white_large_square: Table Areas_x_Journal: necesaria para el análisis por campo. Lista de categorías aquí: http://incites.isiknowledge.com/common/help/h_field_category_wos.html#
     Journal Citation Reports permite descargar un archivo con todos los journal de cada categoría (1 archivo/categoría), así como archivos con los journal, pero sólo te permite 500 registros por archivo
 
-:white_check_mark: Define topics for expert criteria analysis: hierarchical vs "key words", both cases,...
+:white_large_square: Define topics for expert criteria analysis: hierarchical vs "key words", both cases,...
 
 Algunos recursos interesantes en R:
 An introduction to text mining in R. R News, 8(2):19–22, Oct. 2008. URL http://CRAN.R-project. org/doc/Rnews/.
@@ -75,9 +79,11 @@ Buscar manual
 Qué necesita/usa para establecer relaciones?
 Investigar alternativas abiertas: shiny, R+plotly...
 
-## Writing methods: To which level of detail? Export process, documentation,...
-# Survey
-~~Hacer y enviar encuesta~~
+:white_large_square: Writing methods: To which level of detail? Export process, documentation,...
+
+
+:white_large_square: Survey
+- ~~Hacer y enviar encuesta~~
 - Answers analysis: what do we want to extract from the answers?
   Main topics
   Time of research
