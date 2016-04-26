@@ -1,0 +1,25 @@
+---
+title: "Basic Statistics"
+output: html_document
+---
+
+# Set working directory and open libraries
+
+```{r}
+getwd() # Is it the correct one?
+
+library(ggplot2)
+library(lattice)
+```
+
+# Get file
+```{r}
+raw_wos_with_key<-read.table("raw_wos_with_key.txt",header=TRUE)
+View(raw_wos_with_key)
+```
+
+# Histogram publications/year
+```{r}
+histogram(raw_wos_with_key$Pub.Year,type="count",breaks=45, xlab="Publication Year", ylab="Number of Publications", col="lightskyblue")
+```
+
