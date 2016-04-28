@@ -12,9 +12,10 @@ output:
 ```{r wd, echo=FALSE}
 #---------------------------------
 # Set working directory 
-machine <- "/Users/ajpelu"
-# machine <- "/Users/ajpeluLap"
-# Maria: machine <- "/Users/DELL"
+# machine <- "/Users/ajpelu"
+machine <- "/Users/ajpeluLap"
+# Maria: 
+machine <- "/Users/DELL"
 
 di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
 #---------------------------------
@@ -45,6 +46,7 @@ for (j in files){
 
 
 rawdf <- rbind(bioCI, bioP, med, wos1, wos2, zoo, wos3)
+View(rawdf)
 ```
 
 # Create key: Sort by year (ascending) and by Authors..Primary (alphabetically)
@@ -56,13 +58,18 @@ rawdf <- rawdf %>%
   mutate(key=cumsum(rep(1, n()))) # create key 
 ```
 
+
+
+
 # Export table/s 
+
+**Parece que esta exportacion da un problema, ya que al importar esta tabla no reconoce correctamente la estructura ni las celulas vacias.**
 
 ```{r}
 write.table(rawdf, file=paste(di, "/raw_wos_with_key.txt", sep=""), sep="\t", row.names = FALSE) # export complete table
 
 # aux <- rawdf %>% 
-  select(key, Authors..Primary, Title.Primary, Pub.Year, Periodical.Full, Periodical.Abbrev, Keywords) # export selected fields
+#  select(key, Authors..Primary, Title.Primary, Pub.Year, Periodical.Full, Periodical.Abbrev, Keywords) # export selected fields
 # write.table(aux, file=paste(di, "/data/output/raw_wos_with_key.txt", sep=""), sep="\t", row.names = FALSE)
   
 # aux_export <- rawdf[,c("Authors..Primary","Title.Primary", "Pub.Year")]
