@@ -7,14 +7,39 @@ The purpose of this file is to develop a word frequency analysis for the analysi
 
 For this analysis, we will use the complete table produced by the import from WoS, and the subsequent modification to merge all citations in one table and add the key (see "cleaning data" for more details).
 
-# There is also another way to do it, with package "tm". Antonio started some testing with that one, in file "tm_package_test"
+# Note: There is also another way to do it, with package "tm" (below).
+
+# Set directory
 
 ```{r}
-machine <- "/Users/DELL" # Define machine for Maria
-di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "") # define directory for Maria
+# Define machine for Maria
+machine <- "/Users/DELL" 
+# Maria en casa: machine<-"/Users/Maria"
+machine <- "/Users/ajpeluLap"
 
+# define directory for Maria
+di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "") 
+
+# install.packages('koRpus')
 library(koRpus) # Frequency and lexical analysis
 ```
+
+# Import data and explore them
+
+~~table<-read.table("raw_wos_with_key.txt",header=TRUE,sep="\t",quote = "",col.names = c("Reference.Type","Authors..Primary","Title.Primary","Periodical.Full","Periodical.Abbrev","Pub.Year","Pub.Date.Free.From","Volume","Issue","Start.Page","Other.Pages","Keywords","Abstract","Notes","Personal.Notes","Authors..Secondary","Title.Secondary","Edition","Publisher","Place.Of.Publication","Authors..Tertiary","Authors..Quaternary","Authors..Quinary","Title..Tertiary","ISSN.ISBN","Availability","Author.Address","Accession.Number","Language","Classification","Sub.file.Database","Original.Foreign.Title","Links","URL","DOI","PMID","PMCID","Call.Number","Database","Data.Source","Identifying.Phrase","Retrieved.Date","Shortened.Title","User.1","User.2","User.3","User.4","User.5","User.6","User.7","User.8","User.9","User.10","User.11","User.12","User.13","User.14","User.15","aut","key"))~~ For some reason if "quote" is not used it gives some warning message and does not recognize 1038 cites, but then it changes the column names, so col.names is used to keep the original names.
+
+```{r}
+tabla <- read.csv(file=paste0(di, "/raw_wos_with_key.txt"), header=TRUE, sep="\t")
+  read.table(file=paste0(di, "/raw_wos_with_key.txt"), header=TRUE,sep="\t")
+
+View(tabla)
+str(tabla)
+dim(tabla)
+```
+
+**Error en la importacion**: 366 filas, no reconoce correctamente los NA, aunque la str es correcta
+
+# Tokenize
 
 Tokenize: Splits the text into the components, no lemmatization is done (as TreeTagger does). Syntaxis:
 
@@ -29,17 +54,60 @@ txt: Either an open connection, the path to directory with txt files to read and
 
 object: Either "file" or "obj", depending on whether you want to scan files or analyze the given object
 
-# Duda: como le digo que me coja el campo "Abstract" de la tabla "rawdf" y haga el tokenize para cada fila por separado?
+This is an example code, which does the freq. analysis, but cannot differentiate between different texts:
 
 ```{r}
 tagged.text <- tokenize("...")
-```
 
-```{r}
 freq.analysis.res <- freq.analysis(tagged.text, corp.freq=NULL) # frequency analysis
 freq.analysis<-taggedText(freq.analysis.res) # needed to be able to visualize the analysis in a table
 View(freq.analysis) # visualization
 ```
+
+So now we need to do that but for each abstract independently.
+
+## Explore abstracts
+
+```{r}
+abstract=table$Abstract
+n=length(abstract) 
+n
+
+mode(abstract) # "numeric"
+typeof(abstract) # "integer"
+typeof(abstract[2]) # "integer"
+```
+
+Once the exportation (rawdf) and importation (tabla) is correct, results should be:
+
+n => 1038
+mode(abstract) => 
+typeof(abstract) => 
+typeof(abstract[2]) => 
+
+So we need to change the type of abstracts
+
+for (i in 1:n) 
+{
+abstract[i]=as.character(abstract[i])
+}
+
+as(abstract[2], Class="character", strict=TRUE, ext)
+
+
+Para que coja el campo "Abstract" de la tabla "rawdf" 
+
+```{r}
+for (i in 1:n) 
+{
+abstract_tokenized[i] = tokenize(abstract[i]) #provided that abstract is the right type
+}
+```
+
+
+
+
+# abstract_tokenized=NULL # necessary? actually tokenize does not create something on its own, unless tag=TRUE is set.
 
 #############################
 

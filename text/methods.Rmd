@@ -78,3 +78,7 @@ In order to know the degree of inclusion of scientific publications about Sierra
 # Survey to Scientists 
 
 The purpose of this survey was to obtain information about the scientists working in Sierra Nevada and their research. Scientists were asked to define their research field, report the period at which they carried out studies in Sierra Nevada and the results of their investigations. Moreover, researchers were asked for the reasons, difficulties or limitations they may have encountered when investigating this territory. *We could include the link to the survey* The survey was distributed to scientists who have some relation to Sierra Nevada, either because they attended the conference ... or because their e-mail address was present in the references exported from WoS.
+
+# Acknowledgements
+
+Biblioteca

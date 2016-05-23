@@ -142,6 +142,10 @@ names(lista_emails_unicos)[1] <- 'email'
 write.csv(lista_emails_unicos, file=paste(di, "/data/output/lista_emails_wos.csv", sep=""), row.names = FALSE)
 ```
  
+
+
+
+
 # Preliminary Analysis of the Journals
 
 ```{r}
@@ -172,4 +176,62 @@ ggplot(art_by_year, aes(x=Pub.Year, y=ln_sum)) +
   geom_line(stat="identity", col="blue", size=1) +
   geom_point(stat = "identity", col="blue", size=2.5, shape=19) + 
   theme_bw() + ylab("ln (n papers)") + xlab("Year")
+
+ggplot(art_by_year, aes(x=Pub.Year, y=cum)) + 
+  geom_line(stat="identity", col="blue", size=1) +
+  geom_point(stat = "identity", col="blue", size=2.5, shape=19) + 
+  theme_bw() + ylab("Number of papers)") + xlab("Year")
 ```
+
+
+
+```{r}
+
+# my_abstract <- rawdf[c(30,37), c("Abstract", "key")]
+# my_abstract1 <- data.frame(Abstract=" ",
+#                            key=99)
+
+my_abstract <- rawdf[, c("Abstract", "key")]
+
+# my_abstract <- rbind(my_abstract, my_abstract1)
+
+out <- data.frame()
+
+for (i in 1:length(my_abstract$Abstract)) {  
+
+subsetdf <- my_abstract[i,]  
+
+if(subsetdf$Abstract != " ")
+  {
+    mytoken <- tokenize(subsetdf$Abstract,
+                    format = "obj", lang = "en") 
+    freq_a <- freq.analysis(mytoken, corp.freq=NULL)
+    df_freq_a<-taggedText(freq_a) 
+    # Add key 
+    df_freq_a$key <- subsetdf$key 
+    out <- rbind(out,df_freq_a)
+} 
+else {
+outna <- data.frame(token=NA,
+                  tag=NA,
+                  lemma=NA,
+                  lttr=NA,
+                  wclass=NA,
+                  desc=NA,
+                  stop=NA,
+                  stem=NA,
+                  key=subsetdf$key)
+out <- rbind(out, outna)
+}
+}
+
+
+
+
+
+
+
+
+
+
+
