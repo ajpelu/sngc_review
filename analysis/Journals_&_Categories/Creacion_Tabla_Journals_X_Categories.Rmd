@@ -1,0 +1,115 @@
+---
+title: "Creación de tabla "Journals_X_Categories""
+output: html_document
+---
+
+# Creación de tabla Journals_X_Categories de todos los journals y todas las categorias de WoS
+
+Definir working directoy:
+```{r}
+di <- "C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/data/wos_journals_categories/journals/"
+library("stringr")
+library("dplyr")
+```
+
+Los archivos donde tenemos los journals de cada categoría comienza con una línea "JCR Year and Edition: 2014 Science" y una línea vacía. Después viene la línea de cabecera de la tabla con los nombres de las columnas, que acaba en un salto de carro y después todas las filas con cada journal y sus datos, terminando la línea en un ";" y salto de carro. Para que R lo lea correctamente es necesario eliminar las líneas 1 ("JCR Year and Edition: 2014 Science") y 2 (vacía) y el ";" al final de cada línea de datos. Eso lo hacemos con Sublime.
+
+- Replace "JCR Year and Edition: 2014 Science\n\n" por ""
+- Replace ";\n" por "\n"
+- Replace ";;\n" por ";\n"
+
+Además, hay 3 journals que no tienen ISSN, se lo añadimos manualmente según lo que InCites nos dice (sospecho que tiene error):
+
+- CURR OSTEOPOROS REP: 1544-2241 
+- J ENG TECHNOL: 0747-9664
+- JOHNSON MATTHEY TECH: 2056-5135
+
+Los archivos originales están en "raw" y los modificados en "journals".
+
+Además, hay 3 categorías que no siguen el formato de tabla (Ver "raw"). Esos tres archivos requieren ser transformados a una tabla como las demás.
+
+- Reemplazar las líneas 1, 2 y 3 por "Abbreviated Journal Title;ISSN;{2014} Total Cites;Impact Factor;5-Year Impact Factor;Immediacy Index;{2014} Articles;Cited Half-Life;Eigenfactor Score;Article Influence Score"
+- Eliminar la información de cada journal
+- Eliminar "*nº. " al principio de cada línea
+- Sustituir "*" al final de cada línea por ";;;;;;;;;"
+- Introducir el ISSN de cada journal en la columna correspondiente (después del primer ";"). Para el "JOURNAL OF LOW FREQUENCY NOISE VIBRATION AND ACTIVE CONTROL" no viene el ISSA, así que lo cojo de internet (0263-0923)
+
+Creamos la tabla que queremos rellenar:
+```{r}
+Journals_X_Categories <- data.frame()
+```
+
+Identificamos los archivos con los journals de cada categoria:
+```{r}
+archivos <- list.files(path =di, full.names = F, pattern = "Journals_of_.*.txt$") # nombre de los archivos
+archivos
+```
+
+Unir las tablas:
+
+```{r}
+for (i in archivos){
+  # Identificamos el nombre de la categoria
+  trozos <- strsplit(i, "_")[[1]] # rompe el nombre del archivo (de cada uno, es decir, de tabla) en trozos separados por _ y crea un vector con ellos
+  categoriatxt <- trozos[3] #llama "categoriatxt" al elemento 3 del vector
+  categoria <- str_replace(categoriatxt, ".txt", "") # elimina ".txt"
+  
+  # Añadimos la columna "categoria" a la tabla, y la rellenamos con el nombre de la categoria, repetido tantas veces como filas haya en la tabla:
+  
+  tabla <- read.table (paste(di, i, sep=""), header=T, sep=";")  # lee el archivo i como tabla
+  
+  tabla$categoria <- rep(categoria, times = nrow(tabla)) # añade una columna llamada "categoria" a la tabla y la rellena repitiendo el nombre de la categoria en cada fila
+
+  Journals_X_Categories <- rbind(tabla,Journals_X_Categories)
+}
+View(Journals_X_Categories)
+```
+
+Exportamos la tabla
+```{r}
+colnames(Journals_X_Categories) <- c("Journal", "ISSN", "Cites", "IFactor","5IFactor", "Index", "Articles", "HalfLife", "Eigenfactor", "Influence", "Categoria") # cambio los nombres de las columnas
+write.table(Journals_X_Categories, file="C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/data/output/Journals_X_Categories.txt", sep = ";",row.names = FALSE)
+```
+
+# Crear BD de los journals y categorias de nuestra búsqueda
+
+Abrimos la tabla donde tenemos los journal y su ISSN de la búsqueda Sierra Nevada AND Spain en WoS SIN REPETICIONES
+
+```{r}
+wos_ut_issn_unicos <- read.table (paste("C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/data/wos_ut/", "wos_ut_issn_unicos.txt", sep=""), header=T, "\t", col.names = c("Journal","ISSN"), quote = "") 
+View(wos_ut_issn_unicos)
+```
+
+Cambiamos la clase de las columnas ISSN en ambas tablas (nos evita un "warning message")
+```{r}
+wos_ut_issn_unicos$ISSN <- as.character(wos_ut_issn_unicos$ISSN)
+Journals_X_Categories$ISSN <- as.character(Journals_X_Categories$ISSN)
+```
+
+Hacemos un left_join de "wos_ut_issn_unicos" y "Journals_X_Categories". Habría dos formas de hacerlo:
+```{r}
+issn_categorias <- left_join(wos_ut_issn_unicos, Journals_X_Categories, by="ISSN")
+write.table(issn_categorias, file="C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/data/output/issn_categorias.txt", sep = ";",row.names = FALSE)
+```
+
+O usando dplyr:
+```{r}
+issn_categorias <- wos_ut_issn_unicos %>% 
+  left_join(Journals_X_Categories, by="ISSN") %>%
+  select(Journal,ISSN,categoria) %>%
+  write.table(issn_categorias, file="C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/data/output/issn_categorias.txt", sep = ";",row.names = FALSE)
+
+```
+
+
+Retazos
+
+Comprobamos que las tablas se abren sin problemas
+```{r}
+tabla <- read.table (paste(di, "Journals_of_ALLERGY.txt", sep=""), header=T, sep=";") 
+View(tabla)
+```
+
+nombre_archivo <- "Journals_of_AGRICULTURE DAIRY & ANIMAL SCIENCE prueba" #string con el nombre del archivo - necesito automatizar la identificacion del nombre como string
+
+col.names = "Journal", "ISSN", "Cites", "IFactor","5IFactor", "Index", "Articles", "HalfLife", "Eigenfactor", "Influence", "categoria"

@@ -1,0 +1,25 @@
+Búsqueda de tabla relacional Journals_X_Catergory en WoS para estudio sobre temática de los papers. 
+
+WoS "Journal Citation Reports" te permite descargarte un archivo con todas las *categorias* -> 
+D:\Maria\Journals and Categories WoS "WoS_Categories"
+
+Para los journals, te permite descargarte listas de hasta 500 registros, por lo que habria que descargar un archivo por cada 500 journal (hay un total de 8659), pero no indica la categoria/s a la/s que esta asociado cada journal.
+
+Los links para descargar los archivos correspondientes (de 500 en 500) para los journal de Social Science estan en: 
+http://ip-science.thomsonreuters.com/cgi-bin/jrnlst/jlresults.cgi
+
+La otra forma de hacerlo seria a traves del siguiente link:
+http://admin-apps.webofknowledge.com/JCR/JCR?RQ=LIST_SUMMARY_JOURNAL
+
+Por tanto, WoS solo permite descargarlo uno por uno (todos los journals de una categoria, y despues de la siguiente, etc). 
+Eso se hace a traves de este link: http://ip-science.thomsonreuters.com/cgi-bin/jrnlst/jlsubcatg.cgi?PC=D
+
+Entonces vamos descargando en archivo de texto los journal que pertenecen a cada categoria. 
+
+Problema: este archivo de texto descargable viene en dos formatos distintos, segun la categoria.
+- con cada journal numerado (ejemplo, "Journals_of_ACOUSTICS"), por lo que necesitaria cierto cambio de formato para poder ser importado como tabla.
+
+- con los journal y sus datos en columnas (ejemplo, "Journals_of_AGRICULTURE_DAIRY_&_ANIMAL_SCIENCE"). En este caso, eliminando la primera fila ("JCR Year and Edition: 2014 Science"), se puede importar directamente la tabla a Acces. 
+
+
+

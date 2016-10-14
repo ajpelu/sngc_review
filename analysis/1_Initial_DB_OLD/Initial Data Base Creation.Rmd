@@ -1,0 +1,109 @@
+---
+title: "Initial Data Base Creation"
+output: html_document
+---
+
+Objetivo: crear una base de datos que facilite la b?squeda de los art?culos en pdf
+
+Necesidad: unir la tabla creada manualmente en Excel ("AA Papers/References" donde se han ido a?adiendo las referencias espaciales y temporales, el estado del paper ("Status"), los "Topics" y comentarios varios
+
+Available information:
+
+"AA_Papers": Excel file with the following tabs:
+
+	*"References"*: con las columnas "Order_Search", "Key", "Pub_Year", "Status", "File", "Topic1", "Topic2", "Topic3", "Topic4", "Title", "Spatial_Ref", "Temporal_Ref", "Comment", "Pdf_Source", "Journal", "Link".
+	    "Key": a?adida desde "raw_wos_with_key" (ver m?s abajo)
+	
+	"Sampling References": Esquema de los tipos de refencias espaciales encontradas, como punto inicial para decidir (en su momento) c?mo georeferenciar los art?culos. B?sicamente se observan superficies, puntos y elementos acu?ticos, y se muestran casu?sticas a considerar (con ejemplos).
+	
+	"Documentation": esta pesta?a explica los campos e indicaciones de la pesta?a "References", el campo "Status" puede haber sufrido modificaciones. Adem?s menciona el significado de las anotaciones en la pesta?a "raw_wos_with_key"
+	
+	"raw_wos_with_key": esta tabla se sac? a trav?s de R uniendo los archivos descargados de WoS (a trav?s de refworks), con los campos que interesaban en ese momento ("key", "Authors..Primary", "Title.Primary", "Pub.year" y "Periodical.Full"). El campo "Periodical.Full" se corresponde con "Journal" en "References", ya que fue copiado y pegado desde "raw_wos_with_key" a "References", al igual que el campo "key".
+
+
+"rawdf": tabla en R con todos los datos descargados desde WoS a trav?s de Refworks. Para conseguir esta tabla es necesario ejecutar el siguiente c?digo:
+
+
+```{r}
+# Set working directory 
+machine <- "/Users/ajpelu"
+# machine <- "/Users/ajpeluLap"
+# Maria: 
+machine <- "/Users/DELL"
+
+di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
+
+# Open packages
+library("stringr") 
+library("dplyr")
+library("tidyr")
+library("ggplot2")
+
+# Get file names
+files <- list.files(path = paste(di, "/data/wos_raw/", sep= ""), pattern= "\\.txt$")
+
+# Read raw files and loop to read files 
+for (j in files){ 
+  aux <- read.csv(file=paste(di, "/data/wos_raw/", j, sep= ""),
+              header = TRUE,
+              sep = '\t')
+  name_aux <- str_replace(j, "\\..*", "") 
+  
+  assign(name_aux, aux)
+  }
+
+# Create table
+rawdf <- rbind(bioCI, bioP, med, wos1, wos2, zoo, wos3)
+
+# Create key, sorted by year (ascending) and by Authors..Primary (alphabetically)
+rawdf <- rawdf %>% 
+  mutate(aut = as.character(Authors..Primary)) %>% # Transform factor to character 
+  arrange(Pub.Year, aut) %>% # sort by pubyear and author 
+  mutate(key=cumsum(rep(1, n()))) # create key 
+```
+
+Hay que tener en cuenta que dos de las referencias de WoS no fueron incluidas en rawdf ya que su inclusi?n era problem?tica y de todas maneras no eran aplicables, ya que una era una repetici?n de otra s? incluida, y la otra pertenece a "Revista Andaluza de Medicina del Deporte". Estas referencias correspond?an al Order_Search 636 y 146. De aqu? en adelante estas dos referencias son excluidas del an?lisis y el manejo de datos. Para ello se a?ade una nueva pesta?a a "AA_Papers", llamada "References_Excluded" y se mueven dichas referencias a esta pesta?a. 
+
+
+# Import "rawdf" to Access
+
+- Export "rawdf" as text file:
+
+```{r} 
+# Create "rawdf" as an exported table table
+# rawdf_export <- rawdf
+# write.table(rawdf_export, file=paste(di, "/data/analysis/Creating_database/rawdf.txt", sep=""), sep="\t", row.names = FALSE)
+```
+
+- In order to get Access to accept the column "key" as primary key is to transform this file into Excel and import it to Access as Excell, defining "key" as "Entero largo", primary key, etc.
+- Rename table as rawdf
+
+# Import "References" to Access
+
+- Copy of "References" tab and paste it in a blank Excel file. Eliminate format (No backgroung, no bolds, black fond) and make sure there are no empty rows
+- Filter by "key" in ascending order
+- Put this newly created file in "C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/analysis/Creating_database/"
+- Import in Access as Excel file, defining "key" as primary key in the import process
+- Rename table as "References"
+
+# Create relations
+
+- Make sure that both "key"s are of the same kind (not only "number" but also "double" or "entero largo")
+- Relationship 1-1 between "key" and "key_access", maintaining referential integrity (and the other two options)
+
+**Success :D**
+
+BD saved as "Initial_DB" in C:/Users/DELL/Dropbox/Review_Sierra_Nevada/sngc_review/analysis/Initial_DB, and used to facilitate the pdf download (by consulting and filtering). 
+
+Note: after the creation of this DB, this becomes the table to use for update and adding of new data, and thus the Excel file "AA_Papers" is not necessarily updated (at 30-3-2016). However, long texts, such as "Spatial_Ref" do not appear in Access correctly. Thus, when adding the spatial reference, this should be done in the Excel file and once all references have been added update/correct Access DB.
+
+# Spatial References
+
+Even though Initial DB has a column of spatial references, these were not copied properly from Excel, and any case it is problematic to add suchlong texts in new records. Thus, spatial references are included in the Excel file "References"
+
+```{r}
+# GEt Ut 
+ut <- read.csv(file=paste(di, '/data/wos_ut/wos_ut_issn.txt', sep=''), sep='\t', header=TRUE)
+
+
+```
