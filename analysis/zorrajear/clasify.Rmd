@@ -1,0 +1,106 @@
+---
+title: "Clasifica clasifica cada uno con la suya"
+author: "unodetantos"
+date: ""
+output:  
+    md_document:
+      variant: markdown_github
+---
+
+## Import raw data
+
+```{r wd, echo=FALSE}
+#---------------------------------
+# Set working directory 
+#machine <- "/Users/ajpelu"
+machine <- "/Users/ajpeluLap"
+di <- paste(machine, "/Dropbox/Review_Sierra_Nevada/sngc_review", sep = "")
+#---------------------------------
+```
+
+```{r packages}
+library("stringr") 
+library("dplyr")
+library("tidyr")
+library("ggplot2")
+library("knitr")
+```
+
+# Read raw files
+
+```{r}
+# Get file names
+files <- list.files(path = paste(di, "/data/wos_raw/", sep= ""), pattern= "\\.txt$")
+
+# Loop to read files 
+for (j in files){ 
+  aux <- read.csv(file=paste(di, "/data/wos_raw/", j, sep= ""),
+              header = TRUE,
+              sep = '\t')
+  name_aux <- str_replace(j, "\\..*", "") 
+  
+  assign(name_aux, aux)
+  }
+
+
+rawdf <- rbind(bioCI, bioP, med, wos1, wos2, zoo, wos3)
+```
+
+# Create key: Sort by year (ascending) and by Authors..Primary (alphabetically)
+
+```{r}
+rawdf <- rawdf %>% 
+  mutate(aut = as.character(Authors..Primary)) %>% # Transform factor to character 
+  arrange(Pub.Year, aut) %>% # sort by pubyear and author 
+  mutate(key=cumsum(rep(1, n()))) # create key 
+```
+
+
+## Summary statistics
+
+```{r}
+### Total References
+tot_ref <- rawdf %>% count()
+tot_ref
+
+### By reference types 
+rawdf %>% 
+  group_by(Reference.Type) %>% 
+  summarise (n = n()) %>%
+  mutate(freq = round((n / sum(n))*100, 2))
+
+
+# Journals 
+articles_by_journal <- rawdf %>% group_by(Periodical.Full) %>% count() 
+
+```
+
+
+
+# Read Wos UT 
+```{r}
+utdf <- read.csv(file=paste(di, "/data/wos_ut/wos_ut_issn.txt", sep= ""), header = TRUE, sep = '\t')
+
+
+issn_unique <- utdf %>% group_by(SN) %>% count() %>% filter(SN !="") %>% select(SN, n_papers=n)
+
+
+cat_journal <- read.csv(file=paste(di, "/data/output/Journals_X_Categories.txt", sep= ""), 
+                        header = TRUE, sep = ';')
+cat_journal <- cat_journal %>% select(Journal, SN=ISSN, Categoria)
+
+
+# Join 
+# unidos <- cat_journal %>% 
+#   left_join(issn_unique, by = "SN")
+
+unidos <- issn_unique %>% 
+  right_join(cat_journal, by = "SN") 
+
+unidos_n <- unidos %>% filter(!is.na(n_papers)) %>% 
+  group_by(Categoria) %>% summarise(sum_paper = sum(n_papers)) %>% 
+  mutate(freq = round((sum_paper / sum(sum_paper))*100, 2)) %>% 
+  arrange(desc(freq))
+
+kable(unidos_n)
+```
